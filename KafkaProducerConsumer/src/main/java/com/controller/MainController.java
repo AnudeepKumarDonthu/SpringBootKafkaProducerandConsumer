@@ -3,37 +3,37 @@ package com.controller;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.env.Environment;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.service.MainService;
-import com.util.ApplicationProperties;
 
 @RestController
 public class MainController {
-	
+
 	@Autowired
 	private MainService MainService;
 
-	@RequestMapping(value = "/health",method = RequestMethod.GET)
-	public String health() {
-		return "Application is Running";
+	@RequestMapping(value = "/health", method = RequestMethod.GET)
+	public ResponseEntity<String> health() {
+		return new ResponseEntity<>("Application is Running", HttpStatus.OK);
 	}
 
-	@RequestMapping(value = "/publishmessage",method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.TEXT_PLAIN_VALUE)
-	public String publishMessageToKafka(@RequestBody Map<Object,Object> messageJson) {
+	@RequestMapping(value = "/publishmessage", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.TEXT_PLAIN_VALUE)
+	public ResponseEntity<String> publishMessageToKafka(@RequestBody Map<Object, Object> messageJson) {
 		MainService.publishMessgae(messageJson);
-		return "Message Publihed successfully to Kafka";
+		return new ResponseEntity<>("Message Publihed successfully to Kafka", HttpStatus.OK);
 	}
-	
-	@RequestMapping(value = "/startkafkaconsumer",method = RequestMethod.GET)
-	public String startKafkaServer() {
+
+	@RequestMapping(value = "/startkafkaconsumer", method = RequestMethod.GET)
+	public ResponseEntity<String> startKafkaServer() {
 		MainService.startKafkaServer();
-		return "Kafka Cnonsumer Started Successfully";
+		return new ResponseEntity<>("Kafka Cnonsumer Started Successfully", HttpStatus.OK);
 	}
 
 }
