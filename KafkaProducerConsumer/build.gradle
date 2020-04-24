@@ -1,0 +1,36 @@
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:1.5.9.RELEASE")  // spring boot gradle plugin will used for generate jar
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+apply plugin: 'java'                                // plugin for java
+apply plugin: 'org.springframework.boot'            // plugin for spring boot framework
+
+sourceCompatibility = 1.8                               // for Java 1.8
+targetCompatibility = 1.8
+
+group 'kafka-producer-consumer'
+version '1.0.0'
+description = "Kafka Producer Consumer  Example"
+
+jar {
+    baseName = 'kafka-producer-consumer'             // jar file name
+    version =  '1.0.0'                                  // application version
+}
+
+dependencies {
+    compile("org.springframework.boot:spring-boot-starter-web") // web application dependency
+    compile("org.apache.kafka:kafka-clients:2.5.0") // Kafka dependency
+	compile("com.google.code.gson:gson:2.3.1")
+    
+    compileOnly("org.springframework.boot:spring-boot-devtools")
+    
+}
